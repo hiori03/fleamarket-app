@@ -10,7 +10,18 @@
 </head>
 <body>
     <header>
-
+        <div class="header">
+            <a href="/">
+                <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
+            </a>
+            <form class="header_form" action="">
+                @csrf
+                <input class="header_input" type="text" placeholder="なにをお探しですか？">
+            </form>
+            <a class="header_logout" href="/login">ログイン</a>
+            <a class="header_mypage" href="">マイページ</a>
+            <a class="header_listing" href="">出品</a>
+        </div>
     </header>
     <main>
         @yield('content')

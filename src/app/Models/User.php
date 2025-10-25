@@ -48,14 +48,14 @@ class User extends Authenticatable
         return $this->hasMany(Item::class);
     }
 
-    public function addresses()
+    public function address()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasOne(Address::class);
     }
 
-    public function favorites()
+    public function favoriteItems()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
     }
 
     public function orders()

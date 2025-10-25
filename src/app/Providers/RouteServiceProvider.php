@@ -18,7 +18,6 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/';
-    // プロフィール編集画面へ
 
     /**
      * The controller namespace for the application.

@@ -10,7 +10,11 @@
 </head>
 <body>
     <header>
-
+        <div class="header">
+            <a href="/">
+                <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
+            </a>
+        </div>
     </header>
     <main>
         @yield('content')
