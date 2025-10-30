@@ -6,9 +6,33 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Item;
+use App\Models\Order;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        //ログイン必須ならここに追加していく
+        $this->middleware('auth')->only(['mypage', 'mypage_profileform']);
+    }
+
+    public function mypage(Request $request)
+    {
+        $user = Auth::user();
+        $page = $request->query('page');
+        $items = collect();
+
+        if ($page === 'sell') {
+            $items = Item::where('user_id', Auth::id())->get();
+        } elseif ($page === 'buy') {
+            $orders = Order::where('user_id', Auth::id())->get();
+            $items = Item::whereIn('id', $orders->pluck('item_id'))->get();
+        }
+
+        return view('mypage', compact('items', 'page', 'user'));
+    }
+
     public function mypage_profileform()
     {
 
@@ -17,7 +41,7 @@ class UserController extends Controller
 
     public function mypage_profile(ProfileRequest $request)
     {
-        $user = Auth::user(); // 現在ログイン中のユーザーを取得
+        $user = Auth::user();
 
         $user->update([
             'name' => $request->name,
@@ -38,7 +62,7 @@ class UserController extends Controller
         if ($isFirstTime) {
             return redirect('/');
         } else {
-            return redirect('/mypage'); //ここ直す
+            return redirect('/mypage?page=sell');
         }
     }
 }

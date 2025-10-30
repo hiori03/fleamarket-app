@@ -20,22 +20,6 @@
     color: #fd0200;
 }
 
-/* .list {
-    margin: 0 auto;
-    width: 100%;
-}
-
-.list_item {
-    width: 25%;
-}
-
-.list_item-image {
-}
-
-.list_item-name {
-
-} */
-
 .list {
     display: flex;
     flex-wrap: wrap;
@@ -87,4 +71,22 @@
     word-break: break-word;
     text-align: left;
     white-space: normal;
+}
+
+
+@media screen and (max-width: 1024px) {
+    .sub_header {
+        height: 50px;
+        padding: 0px 0px 20px 80px;
+    }
+
+    .sub_header-button {
+        font-weight: bold;
+        font-size: 18px;
+        margin-right: 60px;
+    }
+
+    .list_item-name {
+        font-size: 18px;
+    }
 }

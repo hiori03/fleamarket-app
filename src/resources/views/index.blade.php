@@ -5,19 +5,29 @@
 @endsection
 @section('content')
     <div class="sub_header">
-        <a class="sub_header-button {{ request()->query('tab') !== 'mylist' ? 'button-active' : '' }}" href="/">おすすめ</a>
-        <a class="sub_header-button {{ request()->query('tab') === 'mylist' ? 'button-active' : '' }}" href="{{ url('/?tab=mylist') }}">マイリスト</a>
+        @php
+            $query = request()->query();
+            unset($query['tab']);
+        @endphp
+        <a class="sub_header-button {{ request()->query('tab') !== 'mylist' ? 'button-active' : '' }}"
+            href="{{ url('/') }}">おすすめ</a>
+
+        @php
+            $query['tab'] = 'mylist';
+        @endphp
+        <a class="sub_header-button {{ request()->query('tab') === 'mylist' ? 'button-active' : '' }}"
+            href="{{ url('/?tab=mylist') }}">マイリスト</a>
     </div>
     <div class="list">
         @foreach ($items as $item)
             <div class="list_item">
                 <div class="list_item-size">
-                    <a class="list_item-link" href="">
+                    <a class="list_item-link" href="/item/{{ $item->id }}">
                         <img class="list_item-image" src="{{ $item->item_image }}" alt="{{ $item->item_name }}">
                     </a>
                 </div>
                 <div class="list_name-size">
-                    <a class="list_item-name" href="">{{ $item->item_name }}</a>
+                    <a class="list_item-name" href="/item/{{ $item->id }}">{{ $item->item_name }}</a>
                 </div>
             </div>
         @endforeach

@@ -51,4 +51,16 @@ class Item extends Model
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
 
+    public function isFavoritedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+        return $this->favoritedByUsers()->where('user_id', $user->id)->exists();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

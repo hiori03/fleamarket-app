@@ -11,19 +11,20 @@
 <body>
     <header>
         <div class="header">
-            <a href="/">
-                <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
-            </a>
-            <form class="header_form" action="/" method="POST">
-                @csrf
-                <input class="header_input" type="text" name="search" placeholder="なにをお探しですか？">
+            <div class="header_logo-div">
+                <a href="/search" class="header_logo-link">
+                    <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
+                </a>
+            </div>
+            <form class="header_form" action="/" method="GET">
+                <input class="header_input" type="text" name="search" placeholder="なにをお探しですか？" value="{{ $search ?? '' }}">
             </form>
             <form class="header_logout-form" action="/logout" method="post">
                 @csrf
                 <button class="header_logout">ログアウト</button>
             </form>
-            <a class="header_mypage" href="">マイページ</a>
-            <a class="header_listing" href="" >出品</a>
+            <a class="header_mypage" href="{{ url('/mypage?page=sell') }}">マイページ</a>
+            <a class="header_listing" href="/sell" >出品</a>
         </div>
     </header>
     <main>

@@ -11,9 +11,11 @@
 <body>
     <header>
         <div class="header">
-            <a href="/">
-                <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
-            </a>
+            <div class="header_logo-div">
+                <a href="/" class="header_logo-link">
+                    <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
+                </a>
+            </div>
         </div>
     </header>
     <main>
