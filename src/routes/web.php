@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [ItemController::class, 'index'])->name('home');
+Route::get('/search', [ItemController::class, 'search'])->name('search');
+
+Route::get('/item/{item}', [ItemController::class, 'show']);
+Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('items.favorite');
+Route::post('/items/{item}/comment', [ItemController::class, 'comment'])->name('items.comment');
+
+Route::get('/purchase/{item}', [ItemController::class, 'purchaseform'])->name('purchaseform');
+Route::post('/purchase/{item}', [ItemController::class, 'purchase']);
+Route::get('/purchase/address/{item}', [ItemController::class, 'purchaseaddressform']);
+Route::post('/purchase/address/{item}', [ItemController::class, 'addressUpdate'])->name('purchase.address.update');
+
+Route::get('/sell', [ItemController::class, 'sellform']);
+Route::post('/sell', [ItemController::class, 'sell']);
+
+Route::get('/mypage', [UserController::class, 'mypage']);
+Route::get('/mypage/profile', [UserController::class, 'mypage_profileform']);
+Route::post('/mypage/profile', [UserController::class, 'mypage_profile']);
+
+Route::get('/register', [AuthController::class, 'registerform']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'loginform'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);

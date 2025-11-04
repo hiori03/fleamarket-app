@@ -1,0 +1,246 @@
+.content {
+    margin: 80px auto;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content_information {
+    width: 60%;
+}
+
+.content_payment {
+    width:36%;
+}
+
+.item_information {
+    border-bottom: 1px solid #000;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.item_image-size {
+    width: 25%;
+    height: 25%;
+    margin: 0 8% 30px 0;
+}
+
+.item_image {
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 120px;
+    min-height: 120px;
+    object-fit: contain;
+}
+
+.information_text-div {
+    width: 75%;
+}
+
+.item_name {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bolder;
+}
+
+.span_text {
+    font-size: 20px;
+}
+
+.span_price {
+    font-size: 24px;
+}
+
+.payment_information {
+    border-bottom: 1px solid #000;
+    margin-bottom: 30px;
+}
+
+.payment_title-information {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 30px 30px;
+}
+
+.payment_select {
+    width: 100%;
+    font-size: 14px;
+    padding: 4px;
+    outline: none;
+    appearance: none;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+}
+
+.parment_div {
+    position: relative;
+    display: inline-block;
+    width: 36%;
+    margin: 0 0 50px 70px;
+}
+
+.parment_select-div {
+    position: relative;
+}
+
+.parment_select-div::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    pointer-events: none;
+    transform: translateY(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #5f5f5f;
+    right: 12px;
+}
+
+.shipping_address {
+    border-bottom: 1px solid #000;
+}
+
+.shipping_title-div {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.shipping_address-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 30px;
+}
+
+.shipping_address-link {
+    color: #0774cc;
+    text-decoration: none;
+    margin-right: 30px;
+}
+
+.postal_div {
+    display: flex;
+    align-items: center;
+    margin: 0 0 10px 70px;
+}
+
+.address_div {
+    margin: 0 0 50px 70px;
+}
+
+.postal_text {
+    font-size: 16px;
+}
+
+.postal_input {
+    font-size: 18px;
+    border: none;
+    outline: none;
+}
+
+.address_text {
+    font-size: 18px;
+    word-wrap: break-word;
+}
+
+.payment_border {
+    width: 100%;
+    border: 1px solid #000;
+}
+
+.price_div {
+    padding: 26px 0px;
+    display: flex;
+    border-bottom: 1px solid #000;
+}
+
+.payment_div {
+    padding: 26px 0px;
+    display: flex;
+}
+
+.price_span,
+.payment_text,
+.price_tag,
+.payment_title {
+    width: 50%;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.form_button {
+    margin-top: 60px;
+    width: 100%;
+    padding: 6px 0px;
+    background-color: #fd5555;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.error_message {
+    margin-top: 6px;
+    font-size: 15px;
+    color: #fd5555;
+}
+
+
+@media screen and (max-width: 1024px) {
+    .item_name {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+
+    .span_text {
+        font-size: 18px;
+    }
+
+    .span_price {
+        font-size: 22px;
+    }
+
+    .payment_title-information {
+        font-size: 16px;
+    }
+
+    .parment_div {
+        width: 40%;
+    }
+
+    .shipping_address-title {
+        font-size: 16px;
+    }
+
+    .shipping_address-link {
+        font-size: 14px;
+    }
+
+    .postal_text {
+        font-size: 14px;
+    }
+
+    .postal_input {
+        font-size: 16px;
+    }
+
+    .address_text {
+        font-size: 16px;
+    }
+
+    .price_span,
+    .payment_text,
+    .price_tag,
+    .payment_title {
+        font-size: 14px;
+    }
+
+    .form_button {
+        font-size: 18px;
+    }
+}

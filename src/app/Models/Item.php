@@ -11,9 +11,8 @@ class Item extends Model
 
     protected $fillable = [
         'user_id',
-        'category_id',
         'item_image',
-        'name',
+        'item_name',
         'brand',
         'content',
         'situation',
@@ -42,9 +41,26 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'category_item');
     }
 
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+    }
+
+    public function isFavoritedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+        return $this->favoritedByUsers()->where('user_id', $user->id)->exists();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

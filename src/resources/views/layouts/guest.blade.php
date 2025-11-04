@@ -10,7 +10,19 @@
 </head>
 <body>
     <header>
-
+        <div class="header">
+            <div class="header_logo-div">
+                <a href="/search" class="header_logo-link">
+                    <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
+                </a>
+            </div>
+            <form class="header_form" action="/" method="GET">
+                <input class="header_input" type="text" name="search" placeholder="なにをお探しですか？" value="{{ $search ?? '' }}">
+            </form>
+            <a class="header_login" href="/login">ログイン</a>
+            <a class="header_mypage" href="{{ url('/mypage?page=sell') }}">マイページ</a>
+            <a class="header_listing" href="/sell">出品</a>
+        </div>
     </header>
     <main>
         @yield('content')
