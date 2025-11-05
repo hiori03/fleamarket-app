@@ -111,30 +111,7 @@ class ItemController extends Controller
 
     public function purchase(PurchaseRequest $request, Item $item)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-    $payment_method = $request->input('payment_method');
-
-    if ($payment_method == '1') {
-        $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'jpy',
-                    'product_data' => [
-                        'name' => $item->item_name,
-                    ],
-                    'unit_amount' => $item->price * 100, // 円 → セント換算
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('purchase.success', ['item' => $item->id]),
-            'cancel_url' => route('purchase.cancel', ['item' => $item->id]),
-        ]);
-
-        return redirect($session->url);
-    }
+        
 
         Order::create([
             'user_id' => Auth::id(),
