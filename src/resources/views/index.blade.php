@@ -7,23 +7,32 @@
     <div class="sub_header">
         @php
             $query = request()->query();
-            unset($query['tab']);
+        @endphp
+        @php
+            $recommendedQuery = $query;
+            unset($recommendedQuery['tab']);
         @endphp
         <a class="sub_header-button {{ request()->query('tab') !== 'mylist' ? 'button-active' : '' }}"
-            href="{{ url('/') }}">おすすめ</a>
+            href="{{ url('/') . (http_build_query($recommendedQuery) ? '?' . http_build_query($recommendedQuery) : '') }}">おすすめ</a>
 
         @php
-            $query['tab'] = 'mylist';
+            $mylistQuery = $query;
+            $mylistQuery['tab'] = 'mylist';
         @endphp
         <a class="sub_header-button {{ request()->query('tab') === 'mylist' ? 'button-active' : '' }}"
-            href="{{ url('/?tab=mylist') }}">マイリスト</a>
+            href="{{ url('/') . (http_build_query($mylistQuery) ? '?' . http_build_query($mylistQuery) : '') }}">マイリスト</a>
     </div>
     <div class="list">
         @foreach ($items as $item)
             <div class="list_item">
                 <div class="list_item-size">
                     <a class="list_item-link" href="/item/{{ $item->id }}">
-                        <img class="list_item-image" src="{{ $item->item_image }}" alt="{{ $item->item_name }}">
+                        <div class="sold-overlay {{ $item->is_sold ? 'is_sold' : '' }}">
+                            <img class="list_item-image" src="{{ $item->item_image }}" alt="{{ $item->item_name }}">
+                            @if ($item->is_sold)
+                                <span class="sold-text">SOLD</span>
+                            @endif
+                        </div>
                     </a>
                 </div>
                 <div class="list_name-size">

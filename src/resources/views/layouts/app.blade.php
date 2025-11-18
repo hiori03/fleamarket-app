@@ -12,12 +12,13 @@
     <header>
         <div class="header">
             <div class="header_logo-div">
-                <a href="/search" class="header_logo-link">
+                <a href="/" class="header_logo-link">
                     <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
                 </a>
             </div>
             <form class="header_form" action="/" method="GET">
-                <input class="header_input" type="text" name="search" placeholder="なにをお探しですか？" value="{{ $search ?? '' }}">
+                <input class="header_input" type="text" name="search" placeholder="なにをお探しですか？" value="{{ request('search') }}">
+                <input type="hidden" name="tab" value="{{ request('tab', 'recommend') }}">
             </form>
             <form class="header_logout-form" action="/logout" method="post">
                 @csrf

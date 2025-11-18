@@ -7,7 +7,12 @@
     <div class="show">
         <div class="show_image-space">
             <div class="show_image-size">
-                <img class="show_item-image" src="{{ asset($item->item_image) }}" alt="{{ $item->item_name }}">
+                <div class="sold-overlay {{ $item->is_sold ? 'is_sold' : '' }}">
+                    <img class="show_item-image" src="{{ asset($item->item_image) }}" alt="{{ $item->item_name }}">
+                    @if ($item->is_sold)
+                        <span class="sold-text">SOLD</span>
+                    @endif
+                </div>
             </div>
         </div>
         <div class="show_text-space">
@@ -31,8 +36,11 @@
                         <span class="count">{{ $item->comments()->count() }}</span>
                     </div>
                 </div>
-
-                <a class="show_purchase-button" href="/purchase/{{ $item->id }}">購入手続きへ</a>
+                @if ($item->is_sold)
+                    <p class="show_purchase-sold">売り切れです</p>
+                @else
+                    <a class="show_purchase-button" href="/purchase/{{ $item->id }}">購入手続きへ</a>
+                @endif
                 <h2 class="show_content-title">商品説明</h2>
                 <p class="show_content">{{ $item->content }}</p>
                 <h2 class="show_information-title">商品の情報</h2>
@@ -54,7 +62,9 @@
                 @foreach($item->comments as $comment)
                     <div class="comment_user">
                         <div class="comment_img-div">
-                            <img class="comment_img" src="{{ $comment->user->profile_image }}" alt="">
+                            @if (!empty($comment->user->profile_image))
+                                <img class="comment_img" src="{{ asset('storage/' . $comment->user->profile_image) }}" alt="">
+                            @endif
                         </div>
                         <p class="comment_name">{{ $comment->user->name }}</p>
                     </div>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Order;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -35,18 +36,26 @@ class UserController extends Controller
 
     public function mypage_profileform()
     {
-
-        return view('mypage_profile');
+        $user = Auth::user();
+        return view('mypage_profile', compact('user'));
     }
 
     public function mypage_profile(ProfileRequest $request)
     {
         $user = Auth::user();
 
-        $user->update([
-            'name' => $request->name,
-            'profile_image' => $request->profile_image
-        ]);
+        if ($request->hasFile('profile_image')) {
+            $path = $request->file('profile_image')->store('profiles', 'public');
+
+            if ($user->profile_image) {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+
+            $user->profile_image = $path;
+        }
+
+        $user->name = $request->name;
+        $user->save();
 
         $isFirstTime = !$user->address()->exists();
 

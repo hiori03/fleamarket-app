@@ -15,7 +15,7 @@ class Order extends Model
         'payment_method',
         'postal_order',
         'address_order',
-        'building_order'
+        'building_order',
     ];
 
     protected $casts = [

@@ -8,7 +8,9 @@
         <div class="sub_header">
             <div class="profile">
                 <div class="profile_image-div">
-                    <img class="profile_image" src="{{ asset('images/Armani+Mens+Clock.jpg') }}" alt="">
+                    @if (!empty($user->profile_image))
+                        <img class="profile_image" src="{{ asset('storage/' . $user->profile_image) }}" alt="">
+                    @endif
                 </div>
                 <p class="profile_name">{{ $user->name }}</p>
                 <a class="profile_button" href="/mypage/profile">プロフィールを編集</a>
@@ -23,7 +25,12 @@
                 <div class="list_item">
                     <div class="list_item-size">
                         <a class="list_item-link" href="/item/{{ $item->id }}">
-                            <img class="list_item-image" src="{{ $item->item_image }}" alt="{{ $item->item_name }}">
+                            <div class="sold-overlay {{ $item->is_sold ? 'is_sold' : '' }}">
+                                <img class="list_item-image" src="{{ $item->item_image }}" alt="{{ $item->item_name }}">
+                                @if ($item->is_sold)
+                                    <span class="sold-text">SOLD</span>
+                                @endif
+                            </div>
                         </a>
                     </div>
                     <div class="list_name-size">

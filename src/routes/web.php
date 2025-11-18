@@ -18,7 +18,7 @@ use App\Http\Controllers\UserController;
 
 
 Route::get('/', [ItemController::class, 'index'])->name('home');
-Route::get('/search', [ItemController::class, 'search'])->name('search');
+// Route::get('/search', [ItemController::class, 'search'])->name('search');
 
 Route::get('/item/{item}', [ItemController::class, 'show']);
 Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('items.favorite');
@@ -26,6 +26,9 @@ Route::post('/items/{item}/comment', [ItemController::class, 'comment'])->name('
 
 Route::get('/purchase/{item}', [ItemController::class, 'purchaseform'])->name('purchaseform');
 Route::post('/purchase/{item}', [ItemController::class, 'purchase']);
+Route::get('/success', [ItemController::class, 'success'])->name('purchase.success');
+Route::get('/cancel', [ItemController::class, 'cancel'])->name('purchase.cancel');
+Route::post('/stripe/webhook', [ItemController::class, 'handle']);
 Route::get('/purchase/address/{item}', [ItemController::class, 'purchaseaddressform']);
 Route::post('/purchase/address/{item}', [ItemController::class, 'addressUpdate'])->name('purchase.address.update');
 
