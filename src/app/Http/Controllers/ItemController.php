@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
@@ -18,7 +20,7 @@ class ItemController extends Controller
     public function __construct()
     {
         //ログイン必須ならここに追加していく
-        $this->middleware('auth')->only(['favorite', 'comment', 'sellform', 'purchaseform', 'purchaseaddressform']);
+        $this->middleware('auth')->only(['favorite', 'comment', 'sellform', 'purchaseform', 'purchaseaddressform', 'purchase', 'purchaseaddressform']);
     }
 
     public function index(Request $request)
@@ -39,22 +41,7 @@ class ItemController extends Controller
                 ->get();
         }
 
-        return view('index', compact('items', 'tab'));
-    }
-
-
-
-    public function search(Request $request)
-    {
-        $search = $request->input('search');
-        $query = Item::query();
-
-        if ($search) {
-            $query->where('item_name', 'like', "%{$search}%");
-        }
-
-        $items = $query->get();
-        return view('index', compact('items', 'search'));
+        return view('index', compact('items'));
     }
 
     public function show(Item $item)
@@ -111,41 +98,89 @@ class ItemController extends Controller
 
     public function purchase(PurchaseRequest $request, Item $item)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
+        $payment_method = (int) $request->payment_method;
+        $user = Auth::user();
 
-    $payment_method = $request->input('payment_method');
-
-    if ($payment_method == '1') {
-        $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'jpy',
-                    'product_data' => [
-                        'name' => $item->item_name,
-                    ],
-                    'unit_amount' => $item->price * 100, // 円 → セント換算
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => route('purchase.success', ['item' => $item->id]),
-            'cancel_url' => route('purchase.cancel', ['item' => $item->id]),
-        ]);
-
-        return redirect($session->url);
-    }
-
-        Order::create([
-            'user_id' => Auth::id(),
-            'item_id' => $item->id,
-            'payment_method' => $request->payment_method,
+        session([
+            'item_id' => $request->item_id,
+            'payment_method' => (int) $request->payment_method,
             'postal_order' => $request->postal_order,
             'address_order' => $request->address_order,
             'building_order' => $request->building_order,
         ]);
 
+        if ($payment_method === 1) {
+            $session = Session::create([
+                'mode' => 'payment',
+                'payment_method_types' => ['card'],
+                'success_url' => route('purchase.success', ['item_id' => $item->id]),
+                'cancel_url' => route('purchase.cancel', ['item_id' => $item->id]),
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'product_data' => ['name' => (string) $item->item_name],
+                        'unit_amount' => (int) $item->price,
+                    ],
+                    'quantity' => 1,
+                ]],
+            ]);
+
+            return redirect($session->url);
+        } if ($payment_method === 0) {
+
+            Order::create([
+                'user_id' => $user->id,
+                'item_id' => $item->id,
+                'payment_method' => $request->payment_method,
+                'postal_order' => $request->postal_order,
+                'address_order' => $request->address_order,
+                'building_order' => $request->building_order,
+            ]);
+
+            $item->is_sold = true;
+            $item->save();
+
+            session()->forget(['item_id', 'payment_method', 'postal_order', 'address_order', 'building_order']);
+
+            return redirect('/');
+        }
+    }
+
+    public function success(Request $request)
+    {
+        $item_id = $request->query('item_id');
+        $payment_method = (int) session('payment_method');
+        $postal_order = session('postal_order');
+        $address_order = session('address_order');
+        $building_order = session('building_order');
+
+        if ($payment_method === 1) {
+            Order::create([
+                'user_id' => Auth::id(),
+                'item_id' => $item_id,
+                'payment_method' => $payment_method,
+                'postal_order' => $postal_order,
+                'address_order' => $address_order,
+                'building_order' => $building_order,
+            ]);
+
+            $item = Item::find($item_id);
+            if ($item) {
+                $item->is_sold = true;
+                $item->save();
+            }
+        }
+        session()->forget(['item_id', 'payment_method', 'postal_order', 'address_order', 'building_order']);
+
         return redirect('/');
+    }
+
+    public function cancel(Request $request)
+    {
+        $item_id = $request->query('item_id');
+        session()->forget(['item_id', 'payment_method', 'postal_order', 'address_order', 'building_order']);
+        return redirect()->route('purchaseform', ['item' => $item_id]);
     }
 
     public function purchaseaddressform(Request $request, $item_id)
@@ -170,6 +205,12 @@ class ItemController extends Controller
 
     public function sell(ExhibitionRequest $request)
     {
+        $imagePath = null;
+        if ($request->hasFile('item_image')) {
+            $path = $request->file('item_image')->store('products', 'public');
+            $imagePath = 'storage/' . $path;
+        }
+
         $item = Item::create([
             'user_id' => Auth::id(),
             'item_name' => $request->item_name,
@@ -178,13 +219,13 @@ class ItemController extends Controller
             'situation' => $request->situation,
             'price' => $request->price,
             'description' => $request->description,
-            'item_image' => $request->file('item_image')
-                ? $request->file('item_image')->store('public/items')
-                : null,
+            'item_image' => $imagePath
         ]);
 
-        $item->categories()->attach($request->category_ids);
+        $item->categories()->attach($request->category_id);
 
-        return view('sell')->with('success', '商品を出品しました');
+        $categories = Category::all();
+
+        return redirect('/');
     }
 }

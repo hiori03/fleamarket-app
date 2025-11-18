@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
@@ -15,10 +16,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::firstOrCreate([
+        $user = User::firstOrCreate([
+            'email' => 'test@example.com'], [
             'name' => 'テスト',
-            'email' => 'test@example.com',
             'password' => Hash::make('password'),
+        ]);
+
+        Address::firstOrCreate([
+            'user_id' => $user->id,
+        ], [
+            'postal' => '123-4567',
+            'address' => 'テスト',
         ]);
     }
 }

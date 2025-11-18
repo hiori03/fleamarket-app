@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->tinyInteger('payment_method')->default(0);
-            $table->string('postal_order', 7);
+            $table->string('postal_order', 8);
             $table->string('address_order');
             $table->string('building_order')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();

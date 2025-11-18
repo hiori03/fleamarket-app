@@ -26,7 +26,7 @@ class ExhibitionRequest extends FormRequest
         return [
             'item_name' => 'required',
             'content' => 'required|max:255',
-            'item_image' => 'required|mimes:jpeg,png',
+            'item_image' => 'required|mimes:jpeg,png|max:5120',
             'category_id' => 'required|array|min:1',
             'category_id.*' => 'integer|exists:categories,id',
             'situation' => 'required',
@@ -42,6 +42,7 @@ class ExhibitionRequest extends FormRequest
             'content.max' => '商品説明は255文字以内で入力してください',
             'item_image.required' => '商品画像をアップロードしてください',
             'item_image.mimes' => '画像はjpegまたはpng形式でアップロードしてください',
+            'item_image.max' => '画像サイズは5120KB以下にしてください。',
             'category_id.required' => 'カテゴリーを選択してください',
             'category_id.min' => 'カテゴリーを選択してください',
             'category_id.*.integer' => 'カテゴリーの選択が不正です',

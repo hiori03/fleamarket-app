@@ -6,11 +6,13 @@
 @section('content')
     <div class="content">
         <h1 class="content_title">プロフィール設定</h1>
-        <form action="/mypage/profile" method="POST">
+        <form action="/mypage/profile" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="icon">
                 <div class="icon_image">
-                    <img id="icon_image-previwe" src="{{ asset('images/Armani+Mens+Clock.jpg') }}" alt="">
+                    @if (!empty($user->profile_image))
+                        <img class="icon_image-previwe" src="{{ asset('storage/' . $user->profile_image) }}" alt="">
+                    @endif
                 </div>
                 <div class="icon_choice">
                     <label for="icon" class="icon_choice-button">画像を選択する</label>
