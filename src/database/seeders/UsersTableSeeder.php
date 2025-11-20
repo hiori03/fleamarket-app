@@ -20,6 +20,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'test@example.com'], [
             'name' => 'テスト',
             'password' => Hash::make('password'),
+            'email_verified_at' => now(),
         ]);
 
         Address::firstOrCreate([
