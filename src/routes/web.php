@@ -18,7 +18,6 @@ use App\Http\Controllers\UserController;
 
 
 Route::get('/', [ItemController::class, 'index'])->name('home');
-// Route::get('/search', [ItemController::class, 'search'])->name('search');
 
 Route::get('/item/{item}', [ItemController::class, 'show']);
 Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('items.favorite');
@@ -28,7 +27,6 @@ Route::get('/purchase/{item}', [ItemController::class, 'purchaseform'])->name('p
 Route::post('/purchase/{item}', [ItemController::class, 'purchase']);
 Route::get('/success', [ItemController::class, 'success'])->name('purchase.success');
 Route::get('/cancel', [ItemController::class, 'cancel'])->name('purchase.cancel');
-Route::post('/stripe/webhook', [ItemController::class, 'handle']);
 Route::get('/purchase/address/{item}', [ItemController::class, 'purchaseaddressform']);
 Route::post('/purchase/address/{item}', [ItemController::class, 'addressUpdate'])->name('purchase.address.update');
 
@@ -41,6 +39,9 @@ Route::post('/mypage/profile', [UserController::class, 'mypage_profile']);
 
 Route::get('/register', [AuthController::class, 'registerform']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::get('/email', [AuthController::class, 'emailform'])->name('email');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'certification'])->middleware(['signed'])->name('email.certification');
+Route::post('/email/resend', [AuthController::class, 'resend'])->name('email.resend');
 Route::get('/login', [AuthController::class, 'loginform'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
