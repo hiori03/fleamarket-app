@@ -19,7 +19,6 @@ class ItemController extends Controller
 {
     public function __construct()
     {
-        //ログイン必須ならここに追加していく
         $this->middleware('auth')->only(['favorite', 'comment', 'sellform', 'purchaseform', 'purchaseaddressform', 'purchase', 'purchaseaddressform']);
     }
 
@@ -37,8 +36,7 @@ class ItemController extends Controller
                 $items = collect();
             }
         } else {
-            $items = Item::when($search, fn($q) => $q->where('item_name', 'like', "%{$search}%"))
-                ->get();
+            $items = Item::when($search, fn($q) => $q->where('item_name', 'like', "%{$search}%"))->when(Auth::check(), fn($q) => $q->where('user_id', '!=', Auth::id()))->get();
         }
 
         return view('index', compact('items'));

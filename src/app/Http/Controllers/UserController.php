@@ -14,7 +14,6 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        //ログイン必須ならここに追加していく
         $this->middleware('auth')->only(['mypage', 'mypage_profileform']);
     }
 

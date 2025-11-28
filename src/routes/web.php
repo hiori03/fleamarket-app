@@ -27,14 +27,14 @@ Route::get('/purchase/{item}', [ItemController::class, 'purchaseform'])->name('p
 Route::post('/purchase/{item}', [ItemController::class, 'purchase']);
 Route::get('/success', [ItemController::class, 'success'])->name('purchase.success');
 Route::get('/cancel', [ItemController::class, 'cancel'])->name('purchase.cancel');
-Route::get('/purchase/address/{item}', [ItemController::class, 'purchaseaddressform']);
+Route::get('/purchase/address/{item}', [ItemController::class, 'purchaseaddressform'])->name('purchase.address.form');
 Route::post('/purchase/address/{item}', [ItemController::class, 'addressUpdate'])->name('purchase.address.update');
 
 Route::get('/sell', [ItemController::class, 'sellform']);
 Route::post('/sell', [ItemController::class, 'sell']);
 
-Route::get('/mypage', [UserController::class, 'mypage']);
-Route::get('/mypage/profile', [UserController::class, 'mypage_profileform']);
+Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
+Route::get('/mypage/profile', [UserController::class, 'mypage_profileform'])->name('mypage_profileform');
 Route::post('/mypage/profile', [UserController::class, 'mypage_profile']);
 
 Route::get('/register', [AuthController::class, 'registerform']);

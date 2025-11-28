@@ -25,7 +25,7 @@
                         <div class="parment_select-div">
                             <select class="payment_select" name="payment_method" onchange="this.form.submit()">
                                 <option value="" hidden>選択してください</option>
-                                <option value="0" {{ request('payment_method') == '0' ? 'selected' : '' }}>コンビニ支払い</option>
+                                <option value="0" {{ request('payment_method') == '0' ? 'selected' : '' }}>コンビニ払い</option>
                                 <option value="1" {{ request('payment_method') == '1' ? 'selected' : '' }}>カード支払い</option>
                             </select>
                         </div>

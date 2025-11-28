@@ -128,9 +128,6 @@ class AuthController extends Controller
             return redirect()->route('email');
         }
 
-        // Auth::login($user);
-        // $request->session()->regenerate();
-
         return redirect()->intended('/');
     }
 
