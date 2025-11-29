@@ -133,7 +133,8 @@
     margin-bottom: 30px;
 }
 
-.show_purchase-sold {
+.show_purchase-sold,
+.show_purchase-own {
     display: flex;
     justify-content: center;
     width: 100%;

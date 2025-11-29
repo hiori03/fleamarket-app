@@ -17,7 +17,7 @@ class Item extends Model
         'content',
         'situation',
         'price',
-        'is_sold'
+        'is_sold',
     ];
 
     protected $casts = [
@@ -28,7 +28,7 @@ class Item extends Model
         0 => '良好',
         1 => '目立った傷や汚れなし',
         2 => 'やや傷や汚れあり',
-        3 => '状態が悪い'
+        3 => '状態が悪い',
     ];
 
     public function getSituationLabelAttribute()
@@ -53,9 +53,10 @@ class Item extends Model
 
     public function isFavoritedBy($user)
     {
-        if (!$user) {
+        if (! $user) {
             return false;
         }
+
         return $this->favoritedByUsers()->where('user_id', $user->id)->exists();
     }
 

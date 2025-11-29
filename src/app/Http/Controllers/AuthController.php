@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Mail\VerifyEmail;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Mail;
-use App\Models\User;
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterRequest;
+use App\Mail\VerifyEmail;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
 {
@@ -32,6 +32,7 @@ class AuthController extends Controller
         Auth::login($user);
         session(['unverified_user_id' => $user->id]);
         Auth::logout();
+
         return redirect()->route('email');
     }
 
@@ -39,7 +40,9 @@ class AuthController extends Controller
     {
         $userId = session('unverified_user_id');
 
-        if (!$userId) return redirect()->route('login');
+        if (! $userId) {
+            return redirect()->route('login');
+        }
 
         $user = User::find($userId);
 
@@ -52,6 +55,7 @@ class AuthController extends Controller
 
         if ($user->email_verified_at) {
             Auth::login($user);
+
             return redirect('/mypage/profile');
         }
 
@@ -77,6 +81,7 @@ class AuthController extends Controller
 
         if ($user->email_verified_at) {
             session()->forget('unverified_user_id');
+
             return redirect('/');
         }
 
@@ -125,11 +130,9 @@ class AuthController extends Controller
             $this->sendVerificationMail($user);
             session(['unverified_user_id' => $user->id]);
             Auth::logout();
+
             return redirect()->route('email');
         }
-
-        // Auth::login($user);
-        // $request->session()->regenerate();
 
         return redirect()->intended('/');
     }

@@ -22,9 +22,9 @@ class Order extends Model
         'payment_method' => 'integer',
     ];
 
-    public const  PAYMENT_METHOD = [
+    public const PAYMENT_METHOD = [
         0 => 'コンビニ払い',
-        1 => 'カード支払い'
+        1 => 'カード支払い',
     ];
 
     public function getPaymentMethodLabelAttribute()
@@ -41,5 +41,4 @@ class Order extends Model
     {
         return $this->belongsTo(Item::class);
     }
-
 }

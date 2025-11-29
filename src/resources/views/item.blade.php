@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::check() ? 'layouts.app' : 'layouts.guest')
 @section('title', '商品詳細画面')
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/item.css') }}">
@@ -38,6 +38,8 @@
                 </div>
                 @if ($item->is_sold)
                     <p class="show_purchase-sold">売り切れです</p>
+                @elseif (Auth::check() && $item->user_id === Auth::id())
+                    <p class="show_purchase-own">自分の商品です</p>
                 @else
                     <a class="show_purchase-button" href="/purchase/{{ $item->id }}">購入手続きへ</a>
                 @endif
@@ -82,7 +84,6 @@
                     <button class="show_form-button"  type="submit">コメントを送信する</button>
                 </form>
             </div>
-
         </div>
     </div>
 @endsection

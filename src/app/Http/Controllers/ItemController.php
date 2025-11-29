@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Stripe\Stripe;
-use Stripe\Checkout\Session;
-use Illuminate\Http\Request;
-use App\Models\Item;
-use App\Models\Category;
-use App\Models\Address;
-use App\Models\Order;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AddressRequest;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\ExhibitionRequest;
 use App\Http\Requests\PurchaseRequest;
-use App\Http\Requests\AddressRequest;
+use App\Models\Category;
+use App\Models\Item;
+use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 
 class ItemController extends Controller
 {
     public function __construct()
     {
-        //ログイン必須ならここに追加していく
-        $this->middleware('auth')->only(['favorite', 'comment', 'sellform', 'purchaseform', 'purchaseaddressform', 'purchase', 'purchaseaddressform']);
+        $this->middleware('auth')->only(['favorite', 'comment', 'sellform', 'sell', 'purchaseform', 'purchaseaddressform', 'purchase', 'addressUpdate']);
     }
 
     public function index(Request $request)
@@ -31,14 +29,13 @@ class ItemController extends Controller
         if ($tab === 'mylist') {
             if (Auth::check()) {
                 $items = Auth::user()->favoriteItems()
-                    ->when($search, fn($q) => $q->where('item_name', 'like', "%{$search}%"))
+                    ->when($search, fn ($q) => $q->where('item_name', 'like', "%{$search}%"))
                     ->get();
             } else {
                 $items = collect();
             }
         } else {
-            $items = Item::when($search, fn($q) => $q->where('item_name', 'like', "%{$search}%"))
-                ->get();
+            $items = Item::when($search, fn ($q) => $q->where('item_name', 'like', "%{$search}%"))->when(Auth::check(), fn ($q) => $q->where('user_id', '!=', Auth::id()))->get();
         }
 
         return view('index', compact('items'));
@@ -47,6 +44,7 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         $item->load('categories');
+
         return view('item', compact('item'));
     }
 
@@ -65,12 +63,8 @@ class ItemController extends Controller
 
     public function comment(CommentRequest $request, Item $item)
     {
-        $request->validate([
-            'comment' => 'required|string|max:500',
-        ]);
-
         $user = auth()->user();
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
@@ -82,7 +76,6 @@ class ItemController extends Controller
         return back();
     }
 
-
     public function purchaseform(Request $request, Item $item)
     {
         $user = Auth::user();
@@ -93,6 +86,7 @@ class ItemController extends Controller
             $address = $user->address;
         }
         $payment_method = $request->query('payment_method');
+
         return view('purchase', compact('item', 'address', 'payment_method'));
     }
 
@@ -180,12 +174,14 @@ class ItemController extends Controller
     {
         $item_id = $request->query('item_id');
         session()->forget(['item_id', 'payment_method', 'postal_order', 'address_order', 'building_order']);
+
         return redirect()->route('purchaseform', ['item' => $item_id]);
     }
 
     public function purchaseaddressform(Request $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
+
         return view('purchase_address', compact('item'));
     }
 
@@ -193,13 +189,14 @@ class ItemController extends Controller
     {
         $data = $request->only(['postal', 'address', 'building']);
         session(['purchase_address' => $data]);
+
         return redirect()->route('purchaseform', ['item' => $item_id]);
     }
-
 
     public function sellform()
     {
         $categories = Category::all();
+
         return view('sell', compact('categories'));
     }
 
@@ -208,7 +205,7 @@ class ItemController extends Controller
         $imagePath = null;
         if ($request->hasFile('item_image')) {
             $path = $request->file('item_image')->store('products', 'public');
-            $imagePath = 'storage/' . $path;
+            $imagePath = 'storage/'.$path;
         }
 
         $item = Item::create([
@@ -219,7 +216,7 @@ class ItemController extends Controller
             'situation' => $request->situation,
             'price' => $request->price,
             'description' => $request->description,
-            'item_image' => $imagePath
+            'item_image' => $imagePath,
         ]);
 
         $item->categories()->attach($request->category_id);

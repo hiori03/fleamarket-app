@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        //ログイン必須ならここに追加していく
-        $this->middleware('auth')->only(['mypage', 'mypage_profileform']);
+        $this->middleware('auth')->only(['mypage', 'mypage_profileform', 'mypage_profile']);
     }
 
     public function mypage(Request $request)
@@ -37,6 +35,7 @@ class UserController extends Controller
     public function mypage_profileform()
     {
         $user = Auth::user();
+
         return view('mypage_profile', compact('user'));
     }
 
@@ -57,7 +56,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->save();
 
-        $isFirstTime = !$user->address()->exists();
+        $isFirstTime = ! $user->address()->exists();
 
         $user->address()->updateOrCreate(
             [],
