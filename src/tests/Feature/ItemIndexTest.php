@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ItemIndexTest extends TestCase
@@ -24,7 +23,7 @@ class ItemIndexTest extends TestCase
     }
 
     /** @test */
-    public function 購入済み商品は「Sold」と表示される()
+    public function 購入済み商品は「_sold」と表示される()
     {
         $seller = \App\Models\User::factory()->create();
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +9,11 @@
     @yield('css')
 </head>
 <body>
-    <header>
-        <div class="header">
-            <div class="header_logo-div">
-                <a href="/" class="header_logo-link">
-                    <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
-                </a>
-            </div>
+    <header class="header">
+        <div class="header_logo-div">
+            <a href="/" class="header_logo-link">
+                <img class="header_logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
+            </a>
         </div>
     </header>
     <main>

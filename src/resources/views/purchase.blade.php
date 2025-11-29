@@ -21,8 +21,8 @@
             <div class="payment_information">
                 <p class="payment_title-information">支払い方法</p>
                 <form method="GET" action="{{ route('purchaseform', ['item' => $item->id]) }}">
-                    <div class="parment_div">
-                        <div class="parment_select-div">
+                    <div class="payment_div">
+                        <div class="payment_select-div">
                             <select class="payment_select" name="payment_method" onchange="this.form.submit()">
                                 <option value="" hidden>選択してください</option>
                                 <option value="0" {{ request('payment_method') == '0' ? 'selected' : '' }}>コンビニ払い</option>
@@ -42,10 +42,10 @@
                 </div>
                 <div class="postal_div">
                     <p class="postal_text">〒</p>
-                    <p class="postal_input">{{ $address->postal }}</p>
+                    <p class="postal_input">{{ $address->postal ?? '' }}</p>
                 </div>
                 <div class="address_div">
-                    <p class="address_text">{{ $address->address }}{{ $address->building }}</p>
+                    <p class="address_text">{{ $address->address ?? '' }}{{ $address->building ?? '' }}</p>
                     @error('address')
                         <p class="error_message">{{ $message }}</p>
                     @enderror
@@ -63,7 +63,7 @@
                             <span class="span_price-payment">{{ number_format($item->price) }}</span>
                         </div>
                     </div>
-                    <div class="payment_div">
+                    <div class="payment_text-div">
                         <p class="payment_title">支払い方法</p>
                         <p class="payment_text">
                             @if(request('payment_method') == '0')
@@ -76,10 +76,10 @@
                         </p>
                     </div>
                 </div>
-                <input type="hidden" name="payment_method" value="{{ request('payment_method') }}" readonly>
-                <input type="hidden" name="postal_order" value="{{ $address->postal }}" readonly>
-                <input type="hidden" name="address_order" value="{{ $address->address }}" readonly>
-                <input type="hidden" name="building_order" value="{{ $address->building }}" readonly>
+                <input type="hidden" name="payment_method" value="{{ request('payment_method') }}">
+                <input type="hidden" name="postal_order" value="{{ $address->postal ?? '' }}">
+                <input type="hidden" name="address_order" value="{{ $address->address ?? '' }}">
+                <input type="hidden" name="building_order" value="{{ $address->building ?? '' }}">
                 <button class="form_button">購入する</button>
             </form>
         </div>

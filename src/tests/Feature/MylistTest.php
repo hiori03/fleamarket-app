@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class MylistTest extends TestCase
@@ -42,7 +41,7 @@ class MylistTest extends TestCase
     }
 
     /** @test */
-    public function 購入済み商品は「Sold」と表示される()
+    public function 購入済み商品は「_sold」と表示される()
     {
         $user = \App\Models\User::factory()->create();
 

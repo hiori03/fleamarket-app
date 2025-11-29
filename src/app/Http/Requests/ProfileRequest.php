@@ -27,7 +27,7 @@ class ProfileRequest extends FormRequest
             'profile_image' => 'nullable|mimes:jpeg,png',
             'name' => 'required|max:20',
             'postal' => 'required|regex:/^\d{3}-\d{4}$/',
-            'address' => 'required'
+            'address' => 'required',
         ];
     }
 
@@ -39,7 +39,7 @@ class ProfileRequest extends FormRequest
             'name.max' => 'ユーザー名は20文字以内で入力してください',
             'postal.required' => '郵便番号を入力してください',
             'postal.regex' => '郵便番号はハイフン付きの数字で入力してください',
-            'address.required' => '住所を入力してください'
+            'address.required' => '住所を入力してください',
         ];
     }
 }

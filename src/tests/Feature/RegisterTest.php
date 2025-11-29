@@ -3,9 +3,8 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
@@ -111,7 +110,7 @@ class RegisterTest extends TestCase
     {
         Mail::fake();
 
-        $email = 'register_test_' . uniqid() . '@example.com';
+        $email = 'register_test_'.uniqid().'@example.com';
 
         $this->get('/register')->assertStatus(200);
 

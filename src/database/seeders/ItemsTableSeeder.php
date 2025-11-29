@@ -2,13 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Item;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Item;
-use App\Models\Category;
-
-
-
 
 class ItemsTableSeeder extends Seeder
 {
@@ -127,11 +124,11 @@ class ItemsTableSeeder extends Seeder
             $source = base_path('database/seeders/images/'.$image);
             $destination = 'products/'.$image;
 
-                Storage::disk('public')->put($destination, file_get_contents($source));
+            Storage::disk('public')->put($destination, file_get_contents($source));
 
             $createdItem = Item::create([
                 'user_id' => $itemData['user_id'],
-                'item_image' => 'storage/' . $destination,
+                'item_image' => 'storage/'.$destination,
                 'item_name' => $itemData['item_name'],
                 'brand' => $itemData['brand'],
                 'content' => $itemData['content'],
@@ -139,7 +136,7 @@ class ItemsTableSeeder extends Seeder
                 'price' => $itemData['price'],
             ]);
 
-            if (isset($itemData['categories']) && !empty($itemData['categories'])) {
+            if (isset($itemData['categories']) && ! empty($itemData['categories'])) {
                 $categoryIds = Category::whereIn('category', $itemData['categories'])->pluck('id');
                 $createdItem->categories()->attach($categoryIds);
             }

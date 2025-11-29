@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Address;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class MypageUpdateTest extends TestCase
 {
@@ -33,7 +32,7 @@ class MypageUpdateTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response->assertSee(asset('storage/' . $user->profile_image));
+        $response->assertSee(asset('storage/'.$user->profile_image));
 
         $response->assertSee('テストユーザー');
 

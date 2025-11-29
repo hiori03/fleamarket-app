@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ItemTest extends TestCase
@@ -17,11 +16,11 @@ class ItemTest extends TestCase
 
         $commentUser = \App\Models\User::factory()->create([
             'name' => 'コメントユーザー',
-            'profile_image' => 'dummy.jpg'
+            'profile_image' => 'dummy.jpg',
         ]);
 
         $category = \App\Models\Category::factory()->create([
-            'category' => 'ファッション'
+            'category' => 'ファッション',
         ]);
 
         $item = \App\Models\Item::factory()->create([
@@ -38,7 +37,7 @@ class ItemTest extends TestCase
 
         $item->comments()->create([
             'user_id' => $commentUser->id,
-            'comment' => 'こんにちは'
+            'comment' => 'こんにちは',
         ]);
 
         \DB::table('favorites')->insert([

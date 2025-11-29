@@ -84,7 +84,6 @@
                     <button class="show_form-button"  type="submit">コメントを送信する</button>
                 </form>
             </div>
-
         </div>
     </div>
 @endsection

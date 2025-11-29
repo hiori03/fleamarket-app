@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class SearchTest extends TestCase
@@ -22,7 +21,6 @@ class SearchTest extends TestCase
             'item_name' => '別の商品',
             'user_id' => \App\Models\User::factory()->create()->id,
         ]);
-
 
         $response = $this->get('/?search=テスト');
 

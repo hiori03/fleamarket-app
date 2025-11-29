@@ -11,7 +11,7 @@
             <div class="icon">
                 <div class="icon_image">
                     @if (!empty($user->profile_image))
-                        <img class="icon_image-previwe" src="{{ asset('storage/' . $user->profile_image) }}" alt="">
+                        <img class="icon_image-preview" src="{{ asset('storage/' . $user->profile_image) }}" alt="">
                     @endif
                 </div>
                 <div class="icon_choice">

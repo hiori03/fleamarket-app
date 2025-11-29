@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Address;
 use App\Models\Item;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PaymentTest extends TestCase
 {
@@ -23,7 +22,7 @@ class PaymentTest extends TestCase
             'user_id' => $user->id,
             'postal' => '123-4567',
             'address' => 'テスト',
-            'building' => 'テストビル'
+            'building' => 'テストビル',
         ]);
 
         $item = Item::factory()->create([

@@ -6,7 +6,6 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
-    overflow: hidden;
 }
 
 .header_logo-div {
@@ -33,7 +32,7 @@
     }
 
     .header_logo {
-        width: 200px;
+        height: 22px;
     }
 
 }
