@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => '__root__',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => '0558b92c72f0c36b799810c4eb89063286c54d6b',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '0558b92c72f0c36b799810c4eb89063286c54d6b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'laravel/pint' => array(
+            'pretty_version' => 'v1.26.0',
+            'version' => '1.26.0.0',
+            'reference' => '69dcca060ecb15e4b564af63d1f642c81a241d6f',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../laravel/pint',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'stripe/stripe-php' => array(
+            'pretty_version' => 'v18.2.0',
+            'version' => '18.2.0.0',
+            'reference' => '0acd7bdac84ad0f940d5da30c417170ce59b4fbc',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../stripe/stripe-php',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);
