@@ -16,7 +16,7 @@
 
 1.  docker-compose exec php bash
 2.  composer install
-3.  .env.example ファイルから.env を作成し、環境変数を変更
+3.  cp .env.example .env 環境変数を変更
 4.  php artisan key:generate
 5.  php artisan migrate
 6.  php artisan db:seed
@@ -26,8 +26,7 @@
 
 ### テスト環境 (.env.testing) の設定
 
-1.  cd src
-2.  cp .env.testing.example .env.testing
+-  cp .env.testing.example .env.testing 環境変数を変更
 
 ### テスト用DB作成
 
